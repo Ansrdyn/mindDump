@@ -6,6 +6,7 @@ import {
   StyleSheet,
   TextInput,
   TouchableHighlight,
+  Text,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 export default function Navbar({ onSearch }) {
@@ -18,14 +19,7 @@ export default function Navbar({ onSearch }) {
   return (
     <SafeAreaView>
       <View style={styles.container}>
-        {!showSearchBar && (
-          <Image
-            source={{
-              uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHC09YwxqI_XGh9MvNEW3LqbvxvDkd-uaxOQ&usqp=CAU",
-            }}
-            style={styles.tinyLogo}
-          />
-        )}
+        {!showSearchBar && <Text style={styles.text}>MindDump</Text>}
         {showSearchBar && (
           <TextInput
             style={styles.searchInput}
@@ -55,10 +49,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 10,
   },
-  tinyLogo: {
-    width: 100,
-    height: 50,
+  text: {
+    fontSize: 35,
     marginLeft: 10,
+    fontWeight: "bold",
   },
   search: {
     fontSize: 25,
