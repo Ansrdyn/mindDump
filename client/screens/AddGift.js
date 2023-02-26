@@ -16,10 +16,9 @@ export default function CreateMindDump({ navigation, route }) {
   const [searchGift, setSearchGift] = useState("");
   const [selectedGift, setSelectedGift] = useState(null);
   const { width } = Dimensions.get("window");
-  const cardMargin = 12;
-  const cardWidth = (width - cardMargin * 4) / 3;
-  const cardHeight = cardWidth * 1;
-
+  const cardMargin = 10;
+  const cardWidth = (width - cardMargin * 5) / 3;
+  const cardHeight = cardWidth;
   const FindGift = ({ giftData }) => {
     const isSelected = selectedGift?.id === giftData.id;
     return (

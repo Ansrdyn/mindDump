@@ -8,8 +8,8 @@ import {
   View,
   TouchableOpacity,
   Text,
-  AsyncStorage,
 } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Card, Title, Paragraph } from "react-native-paper";
 import moment from "moment";
 export default function HomeScreen({ navigation }) {
@@ -65,17 +65,20 @@ export default function HomeScreen({ navigation }) {
     getOriginalData();
   }, []);
   const CardGift = ({ giftData }) => {
+    const trendingDate = moment(giftData.trending_datetime);
+    const date = trendingDate.isValid()
+      ? trendingDate.format("DD MMMM YYYY")
+      : moment().format("DD MMMM YYYY");
     return (
       <Card style={styles.card}>
         <Card.Cover
           source={{ uri: giftData.images.downsized.url }}
-          resizeMode="cover"
+          resizeMode="contain"
+          style={styles.cardCover}
         />
-        <Card.Content>
+        <Card.Content style={styles.cardContent}>
           <Title style={styles.title}>{giftData.title}</Title>
-          <Paragraph style={styles.paragraph}>
-            {moment(giftData.trending_datetime).format("DD MMMM YYYY")}
-          </Paragraph>
+          <Paragraph style={styles.paragraph}>{date}</Paragraph>
         </Card.Content>
       </Card>
     );
@@ -122,10 +125,12 @@ const styles = StyleSheet.create({
   },
   card: {
     width: 180,
-    height: 300,
+    height: 280,
+    margin: 5,
   },
   title: {
-    fontSize: 20,
+    fontSize: 18,
+    lineHeight: 18,
   },
   paragraph: {
     fontSize: 15,

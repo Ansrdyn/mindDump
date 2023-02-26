@@ -6,8 +6,8 @@ import {
   Text,
   Image,
   TouchableOpacity,
-  AsyncStorage,
 } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { RichEditor, RichToolbar } from "react-native-pell-rich-editor";
 import Icon from "react-native-vector-icons/FontAwesome";
 
@@ -26,7 +26,7 @@ export default function EditorScreen({ navigation, route }) {
       console.log(error);
     }
   };
-  const handleImageChange = (data) => {
+  const handleImage = (data) => {
     setSavedImage(data.images.downsized.url);
   };
 
@@ -44,7 +44,7 @@ export default function EditorScreen({ navigation, route }) {
         <Image
           source={{ uri: image.images.downsized.url }}
           style={styles.img}
-          onLoad={() => handleImageChange(image)}
+          onLoad={() => handleImage(image)}
         />
       </View>
       <View style={styles.editorContainer}>
@@ -106,9 +106,6 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "80%",
     height: "auto",
-    // width: 200,
-    // height: 200,
-    // resizeMode: "cover",
     alignSelf: "center",
   },
   button: {
