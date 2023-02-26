@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../Components/Navbar";
 import {
+  SafeAreaView,
   StyleSheet,
   FlatList,
   ActivityIndicator,
   View,
   TouchableOpacity,
   Text,
+  AsyncStorage,
 } from "react-native";
 import { Card, Title, Paragraph } from "react-native-paper";
 import moment from "moment";
-import { SafeAreaView } from "react-native";
 export default function HomeScreen({ navigation }) {
   const [gift, setGift] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -22,6 +23,7 @@ export default function HomeScreen({ navigation }) {
       `https://api.giphy.com/v1/gifs/trending?api_key=${key}&rating=g`
     );
     const data = await response.json();
+    await AsyncStorage.setItem("originalData", JSON.stringify(data.data));
     setGift(data);
     setOriginalData(data.data);
     setIsLoading(false);
@@ -42,8 +44,25 @@ export default function HomeScreen({ navigation }) {
       });
     }
   };
+  const handleClearSearch = () => {
+    setSearchText("");
+    setGift({
+      ...gift,
+      data: originalData,
+    });
+  };
   useEffect(() => {
-    api();
+    const getOriginalData = async () => {
+      const data = await AsyncStorage.getItem("originalData");
+      if (data) {
+        setOriginalData(JSON.parse(data));
+        setGift({ data: JSON.parse(data) });
+        setIsLoading(false);
+      } else {
+        await api();
+      }
+    };
+    getOriginalData();
   }, []);
   const CardGift = ({ giftData }) => {
     return (
@@ -71,7 +90,7 @@ export default function HomeScreen({ navigation }) {
     <>
       <SafeAreaView style={styles.area}>
         <View>
-          <Navbar onSearch={handleSearch} />
+          <Navbar onSearch={handleSearch} onClear={handleClearSearch} />
           {gift.data.length > 0 ? (
             <FlatList
               data={gift.data}

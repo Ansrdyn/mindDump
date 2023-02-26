@@ -9,12 +9,13 @@ import {
   Text,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
-export default function Navbar({ onSearch }) {
+export default function Navbar({ onSearch, onClear }) {
   const [showSearchBar, setShowSearchBar] = useState(false);
   const [searchText, setSearchText] = useState("");
   const toggleSearchBar = () => {
     setShowSearchBar(!showSearchBar);
     setSearchText("");
+    onClear();
   };
   return (
     <SafeAreaView>

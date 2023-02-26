@@ -11,7 +11,6 @@ import {
 } from "react-native";
 import { Card, Title } from "react-native-paper";
 import Icon from "react-native-vector-icons/FontAwesome";
-
 export default function CreateMindDump({ navigation, route }) {
   const { image } = route.params;
   const [searchGift, setSearchGift] = useState("");
@@ -19,7 +18,7 @@ export default function CreateMindDump({ navigation, route }) {
   const { width } = Dimensions.get("window");
   const cardMargin = 12;
   const cardWidth = (width - cardMargin * 4) / 3;
-  const cardHeight = cardWidth * 2;
+  const cardHeight = cardWidth * 1;
 
   const FindGift = ({ giftData }) => {
     const isSelected = selectedGift?.id === giftData.id;
@@ -42,8 +41,6 @@ export default function CreateMindDump({ navigation, route }) {
       </TouchableOpacity>
     );
   };
-
-  // console.log(selectedGift, `<< selected`);
   const renderData = ({ item }) => {
     if (
       searchGift !== "" &&

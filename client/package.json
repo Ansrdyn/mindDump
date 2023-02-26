@@ -23,7 +23,8 @@
     "react-native-quill": "^0.0.2",
     "react-native-rich-editor": "^0.1.1",
     "react-native-vector-icons": "^9.2.0",
-    "react-native-wysiwyg": "^0.0.1"
+    "react-native-wysiwyg": "^0.0.1",
+    "expo-updates": "~0.15.6"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

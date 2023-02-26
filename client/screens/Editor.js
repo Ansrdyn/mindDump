@@ -6,15 +6,30 @@ import {
   Text,
   Image,
   TouchableOpacity,
+  AsyncStorage,
 } from "react-native";
 import { RichEditor, RichToolbar } from "react-native-pell-rich-editor";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 export default function EditorScreen({ navigation, route }) {
-  const [editorValue, setEditorValue] = useState("");
   const editor = useRef();
+  const [editorValue, setEditorValue] = useState("");
+  const [savedImage, setSavedImage] = useState("");
   const { image } = route.params;
-  // console.log(image, `<<< image`);
+
+  const handleSave = async () => {
+    try {
+      await AsyncStorage.setItem("editorValue", editorValue);
+      await AsyncStorage.setItem("savedImage", savedImage);
+      navigation.navigate("Home");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleImageChange = (data) => {
+    setSavedImage(data.images.downsized.url);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -29,6 +44,7 @@ export default function EditorScreen({ navigation, route }) {
         <Image
           source={{ uri: image.images.downsized.url }}
           style={styles.img}
+          onLoad={() => handleImageChange(image)}
         />
       </View>
       <View style={styles.editorContainer}>
@@ -41,7 +57,7 @@ export default function EditorScreen({ navigation, route }) {
           onChange={(text) => setEditorValue(text)}
         />
       </View>
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={handleSave}>
         <Text style={styles.buttonText}>Simpan</Text>
       </TouchableOpacity>
     </SafeAreaView>
